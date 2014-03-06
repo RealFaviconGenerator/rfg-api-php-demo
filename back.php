@@ -14,7 +14,7 @@ catch(Exception $e) {
 }
 
 ?>
-<h1>The favicon was generated</h1>
+<h1>Your generated favicon</h1>
 
 <?php if ($error != NULL) { ?>
 <p>
@@ -22,19 +22,25 @@ catch(Exception $e) {
 </p>
 <?php } else { ?>
 <p>
-	Package local path: <?php echo $files[RFG_FAVICON_PRODUCTION_PACKAGE_PATH] ?>
+	The files to be deployed are here: <code><?php echo $files[RFG_FAVICON_PRODUCTION_PACKAGE_PATH] ?></code>.
 </p>
 <p>
-	To be placed in <?php echo ($response[RFG_FILES_IN_ROOT] ? 'root directory' : $response[RFG_FILES_PATH]) ?>.
+	These files should be moved to <code>&lt;your web site&gt;<?php echo ($response[RFG_FILES_IN_ROOT] ? '/' : $response[RFG_FILES_PATH]) ?></code>.
 </p>
 <p>
-	Favicon code:
+	The following HTML code should be inserted in the <code>&lt;head&gt;</code> section of your web pages:
 </p>
 <pre>
 <?php echo htmlspecialchars($response[RFG_HTML_CODE]) ?>
 </pre>
 
 <h2>Preview</h2>
+
+<p>
+	In this demo, the preview is displayed directly from RealFaviconGenerator (ie. the URL starts with http://realfavicongenerator.net).
+	However, keep in mind that all files are automatically removed after a few hours. So you should rather download the picture, stores it locally,
+	make it available though HTTP and use this local version instead.
+</p>
 
 <?php
 	if ($response[RFG_PREVIEW_PICTURE_URL] != NULL) {
