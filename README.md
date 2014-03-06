@@ -1,7 +1,7 @@
 rfg-api-php-demo
 ================
 
-A sample PHP project to demonstrate the RealFaviconGenerator API.
+A sample PHP project to demonstrate the <a href="http://realfavicongenerator.net/api">RealFaviconGenerator API</a>.
 
 How to use it
 -------------
@@ -12,7 +12,7 @@ How to use it
 Now what?
 ---------
 
-- Edit <code>index.php</code> and change the API parameters you want.
+- Play with the demo: edit <code>index.php</code> and change the API parameters you want.
 - <a href="http://realfavicongenerator.net/api">Study the API.</a>
-- If you use PHP for your own project, you can use <code>rfg.php</code> to handle the response of RFG.
+- If you use PHP for your own project, you can use <code>rfg.php</code> to handle the response of RealFaviconGenerator.
 - Did you implement a great plugin? <a href="mailto:contact@realfavicongenerator.net">Let us know!</a>
