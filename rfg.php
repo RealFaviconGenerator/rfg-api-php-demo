@@ -79,7 +79,12 @@ function getParam($params, $paramName, $throwIfNotFound = true) {
 }
 
 /**
- * Download and extract the files referenced by the response sent back by RealFaviconGenerator. For example:
+ * Download and extract the files referenced by the response sent back by RealFaviconGenerator. 
+ * 
+ * Warning: as this method does HTTP accesses, calling it can take a few seconds. Better invoke it
+ * in an Ajax call, to not slow down the user experience.
+ * 
+ * For example:
  * 
  * <code>
  * $response = parseFaviconGenerationResponse($_REQUEST['json_result']);
