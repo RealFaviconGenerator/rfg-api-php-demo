@@ -112,19 +112,22 @@ function downloadAndUnpack($response, $outputDirectory = NULL) {
 		$r = $zip->open($packagePath);
 		if ($r === TRUE) {
 			$extractedPath = $outputDirectory . DIRECTORY_SEPARATOR . 'favicon_package';
-			mkdir($extractedPath);
+			if (! file_exists($extractedPath)) {
+				mkdir($extractedPath);
+			}
+			
 			$zip->extractTo($extractedPath);
 			$zip->close();
 			
 			if ($response[RFG_COMPRESSION]) {
 				$output[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath . DIRECTORY_SEPARATOR . 'compressed';
 				$output[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath . DIRECTORY_SEPARATOR . 'uncompressed';
-				$output[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $response[RFG_FAVICON_COMPRESSED_PACKAGE_PATH];
+				$output[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $output[RFG_FAVICON_COMPRESSED_PACKAGE_PATH];
 			}
 			else {
 				$output[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = NULL;
 				$output[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
-				$output[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $response[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH];
+				$output[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $output[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH];
 			}
 		}
 		else {
@@ -137,6 +140,8 @@ function downloadAndUnpack($response, $outputDirectory = NULL) {
 		downloadFile($previewPath, $response[RFG_PREVIEW_PICTURE_URL]);
 		$output[RFG_PREVIEW_PATH] = $previewPath;
 	}
+	
+	return $output;
 }
 
 function downloadFile($localPath, $url) {
