@@ -4,9 +4,10 @@ require_once 'rfg.php';
 $response = $_GET['json_result'];
 
 $error = NULL;
+$files = NULL;
 try {
 	$response = parseFaviconGenerationResponse($response);
-	downloadAndUnpack($response);
+	$files = downloadAndUnpack($response);
 }
 catch(Exception $e) {
 	$error = $e->getMessage();
@@ -21,7 +22,7 @@ catch(Exception $e) {
 </p>
 <?php } else { ?>
 <p>
-	Package local path: <?php echo $response[RFG_FAVICON_PRODUCTION_PACKAGE_PATH] ?>
+	Package local path: <?php echo $files[RFG_FAVICON_PRODUCTION_PACKAGE_PATH] ?>
 </p>
 <p>
 	To be placed in <?php echo ($response[RFG_FILES_IN_ROOT] ? 'root directory' : $response[RFG_FILES_PATH]) ?>.
