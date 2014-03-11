@@ -1,18 +1,108 @@
 <?php
 session_start();
 ?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RealFaviconGenerator API demo project</title>
 
-<html>
-	<body>
-		<h1>RealFaviconGenerator API demo</h1>
-		
-		<p>Generate a favicon:</p>
-		
-		<form method="post" action="http://realfavicongenerator.net/api/favicon_generator">
-			<input type="hidden" name="json_params" id="json_params"/>
-			<button type="submit" id="form_button" disabled="disabled">Submit</button>
-		</form>
-	</body>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  	<div class="container">
+      <h1>RealFaviconGenerator API demo</h1>
+
+      <p>
+      This is a sample project. Below, you can choose various settings, 
+      like the pre-defined location of the favicon files on the target web site, etc.
+      Usually, most of these settings are not presented to the end-user but 
+      chosen in the background by the CMS or plugin.
+      </p>
+      
+      <h2>Master Picture</h2>
+      
+      <div class="radio">
+        <label>
+          <input type="radio" name="master_picture" id="master_picture_url" value="master_picture_url" checked>
+            Master picture is predefined and passed by URL.
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="master_picture" id="master_picture_inline" value="master_picture_inline">
+            Master picture is predefined and passed directly, encoded in Base64.
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="master_picture" id="master_picture_none" value="master_picture_none">
+            No master picture. The user will choose one from RealFaviconGenerator.
+        </label>
+      </div>
+      
+      <div class="checkbox" id="demo_picture_container" style="opacity: 0">
+        <label>
+          <input name="demo_picture" id="demo_picture" type="checkbox" value="demo_picture">
+            The user can pick a demo picture.
+        </label>
+      </div>
+      
+      <h2>Files location</h2>
+      
+      <div class="radio">
+        <label>
+          <input type="radio" name="files_location" id="files_location_root" value="files_location_root" checked>
+            Favicon files will be in the root directory of the target web site.
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="files_location" id="files_location_not_root" value="files_location_not_root">
+            Favicon files will be in another directory.
+        </label>
+      </div>
+      <div class="form-group" id="files_path_container" style="opacity: 0">
+        <input type="text" class="form-control" id="files_location_path" placeholder="/path/to/icons or http://somesite.com/path/to/icons">
+      </div>
+      
+      <h2>API Key</h2>
+      
+      <p>
+      No need to change this default value :)
+      </p>
+      <div class="form-group">
+        <input type="text" class="form-control" id="api_key" value="87d5cd739b05c00416c4a19cd14a8bb5632ea563">
+      </div>
+      
+      <h2>Custom parameter</h2>
+      
+      <p>
+      This optional value will be passed back to the caller once the favicon is ready.
+      </p>
+      
+	  <div class="form-group">
+        <input type="text" class="form-control" id="custom_parameter" placeholder="someparam1234">
+      </div>
+      
+	  <form role="form" method="post" action="http://realfavicongenerator.net/api/favicon_generator" id="favicon_form">
+	  	<div class="form-group">
+          <input type="hidden" name="json_params" id="json_params"/>
+          <button type="submit" id="form_button" disabled="disabled" class="btn btn-primary">Go to RealFaviconGenerator and create the favicon</button>
+        </div>
+      </form>
+    </div>
+  </body>
 	<script type="text/javascript" src="/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript">
 		var picData = null;
@@ -38,40 +128,77 @@ session_start();
 		    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 		}
 		
+		function computeJson() {
+			var params = { favicon_generation: { 
+				callback: { url: "http://localhost/back" },
+				master_picture: {},
+				files_location: {},
+				api_key: $('#api_key').val()
+			}};
+			
+			if ($('#custom_parameter').val().length > 0) {
+				params.favicon_generation.callback.custom_parameter = $('#custom_parameter').val();
+			}
+			
+			switch($('input[name=master_picture]:checked').val()) {
+				case('master_picture_none'):
+					params.favicon_generation.master_picture.type = "no_picture";
+					params.favicon_generation.master_picture.demo = $('#demo_picture').is(':checked');
+					break;
+				case('master_picture_url'):
+					params.favicon_generation.master_picture.type = "url";
+					params.favicon_generation.master_picture.url = "http://realfavicongenerator.net/demo_favicon.png";
+					break;
+				case('master_picture_inline'):
+					params.favicon_generation.master_picture.type = "inline";
+					params.favicon_generation.master_picture.content = picData;
+					break;
+			}
+			
+			switch($('input[name=files_location]:checked').val()) {
+				case('files_location_root'):
+					params.favicon_generation.files_location.type = 'root';
+					break;
+				case('files_location_not_root'):
+					params.favicon_generation.files_location.type = 'path';
+					params.favicon_generation.files_location.path = $('#files_location_path').val();
+					break;
+			}
+			
+			return params;
+		}
+		
 		$(document).ready(function() {
 			var img = new Image;
 			img.src = '/demo_favicon.png';
 			img.onload = function() {
 				picData = getBase64Image(img);
 				
-				var params = {
-					favicon_generation: {
-						// Demo key. That's fine.
-						api_key: "87d5cd739b05c00416c4a19cd14a8bb5632ea563",
-						master_picture: {
-							// No master picture, use selects it from RFG
-							type: "no_picture",
-							
-							// Inline pic: you send the master picture along with the other parameters
-//							type: "inline",
-//							content: picData
-	
-							// Picture from URL: you send the URL of the master picture, which will be downloaded by RFG
-//							type: "url",
-//							url: "http://realfavicongenerator.net/demo_favicon.png"
-						},
-						files_location: {
-							type: "root"
-						},
-						callback: {
-							url: "http://localhost/back",
-						}
-					}
-				};
-				$('#json_params').val(JSON.stringify(params));
-				
 				$('#form_button').removeAttr('disabled');
 			}
+			
+			$('#favicon_form').submit(function(e) {
+				$('#json_params').val(JSON.stringify(computeJson()));
+			});
+			
+			$('[name=master_picture]').change(function() {
+				if ($('input[name=master_picture]:checked').val() == 'master_picture_none') {
+					$('#demo_picture_container').animate({ opacity: 1 });
+				}
+				else {
+					$('#demo_picture_container').animate({ opacity: 0 });
+				}
+			});
+			
+			$('[name=files_location]').change(function() {
+				if ($('input[name=files_location]:checked').val() == 'files_location_not_root') {
+					$('#files_path_container').animate({ opacity: 1 });
+				}
+				else {
+					$('#files_path_container').animate({ opacity: 0 });
+				}
+			});
+			
 		});
 	</script>
 </html>
