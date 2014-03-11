@@ -1,27 +1,27 @@
 <?php
-require_once 'rfg.php';
+require_once 'rfg_api_response.php';
 
 class RFGTest extends PHPUnit_Framework_TestCase {
-	
+
 	/**
 	 * @expectedException InvalidArgumentException
 	 */
 	public function testParseFaviconGenerationResponse_NoJson() {
-		parseFaviconGenerationResponse(NULL);
+		$response = new RFGApiResponse(NULL);
 	}
 	
 	/**
 	 * @expectedException InvalidArgumentException
 	 */
 	public function testParseFaviconGenerationResponse_InvalidJson() {
-		parseFaviconGenerationResponse("this is not JSON!");
+		$response = new RFGApiResponse("this is not JSON!");
 	}
 
 	/**
 	 * @expectedException InvalidArgumentException
 	 */
 	public function testParseFaviconGenerationResponse_InvalidFormat() {
-		parseFaviconGenerationResponse('{ "bad": "format" }');
+		$response = new RFGApiResponse('{ "bad": "format" }');
 	}
 	
 	/**
@@ -29,7 +29,7 @@ class RFGTest extends PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage Oops!!
 	 */
 	public function testParseFaviconGenerationResponse_ServerReturnsAnError() {
-		parseFaviconGenerationResponse('{ "favicon_generation_result": { ' .
+		$response = new RFGApiResponse('{ "favicon_generation_result": { ' .
 			'"result": {' .
 				'"status": "error", '.
 				'"error_message": "Oops!!"' .
@@ -53,14 +53,14 @@ class RFGTest extends PHPUnit_Framework_TestCase {
 			'"preview_picture_url": "http://realfavicongenerator.net/files/preview_pic.png",' .
 			'"custom_parameter": "ref=157539001"' .
 		'} }';
-		$out = parseFaviconGenerationResponse($json);
-		$this->assertEquals('http://realfavicongenerator.net/files/0156213fd1232131.zip', $out[RFG_PACKAGE_URL]);
-		$this->assertTrue($out[RFG_COMPRESSION]);
-		$this->assertEquals('Html code here...', $out[RFG_HTML_CODE]);
-		$this->assertFalse($out[RFG_FILES_IN_ROOT]);
-		$this->assertEquals('/path/to/icons', $out[RFG_FILES_PATH]);
-		$this->assertEquals('http://realfavicongenerator.net/files/preview_pic.png', $out[RFG_PREVIEW_PICTURE_URL]);
-		$this->assertEquals('ref=157539001', $out[RFG_CUSTOM_PARAMETER]);
+		$response = new RFGApiResponse($json);
+		$this->assertEquals('http://realfavicongenerator.net/files/0156213fd1232131.zip', $response->getPackageUrl());
+		$this->assertEquals('Html code here...', $response->getHtmlCode());
+		$this->assertTrue($response->isCompressed());
+		$this->assertFalse($response->isFilesInRoot());
+		$this->assertEquals('/path/to/icons', $response->getFilesLocation());
+		$this->assertEquals('http://realfavicongenerator.net/files/preview_pic.png', $response->getPreviewUrl());
+		$this->assertEquals('ref=157539001', $response->getCustomParameter());
 	}
 
 	public function testParseFaviconGenerationResponse_FilesInRoot() {
@@ -77,14 +77,14 @@ class RFGTest extends PHPUnit_Framework_TestCase {
 				'"type": "root"' .
 			'}' .
 		'} }';
-		$out = parseFaviconGenerationResponse($json);
-		$this->assertEquals('http://realfavicongenerator.net/files/0156213fd1232131.zip', $out[RFG_PACKAGE_URL]);
-		$this->assertFalse($out[RFG_COMPRESSION]);
-		$this->assertEquals('Html code here...', $out[RFG_HTML_CODE]);
-		$this->assertTrue($out[RFG_FILES_IN_ROOT]);
-		$this->assertFalse(isset($out[RFG_FILES_PATH]));
-		$this->assertNull($out[RFG_PREVIEW_PICTURE_URL]);
-		$this->assertNull($out[RFG_CUSTOM_PARAMETER]);
+		$response = new RFGApiResponse($json);
+		$this->assertEquals('http://realfavicongenerator.net/files/0156213fd1232131.zip', $response->getPackageUrl());
+		$this->assertFalse($response->isCompressed());
+		$this->assertEquals('Html code here...', $response->getHtmlCode());
+		$this->assertTrue($response->isFilesInRoot());
+		$this->assertEquals('/', $response->getFilesLocation());
+		$this->assertNull($response->getPreviewUrl());
+		$this->assertNull($response->getCustomParameter());
 	}
 	
 }

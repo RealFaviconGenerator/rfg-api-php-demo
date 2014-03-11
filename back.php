@@ -1,13 +1,13 @@
 <?php
-require_once 'rfg.php';
+require_once 'rfg_api_response.php';
 
 $response = $_GET['json_result'];
 
 $error = NULL;
 $files = NULL;
 try {
-	$response = parseFaviconGenerationResponse($response);
-	$files = downloadAndUnpack($response);
+	$response = new RFGApiResponse($response);
+	$response->downloadAndUnpack();
 }
 catch(Exception $e) {
 	$error = $e->getMessage();
@@ -22,16 +22,16 @@ catch(Exception $e) {
 </p>
 <?php } else { ?>
 <p>
-	The files to be deployed are here: <code><?php echo $files[RFG_FAVICON_PRODUCTION_PACKAGE_PATH] ?></code>.
+	The files to be deployed are here: <code><?php echo $response->getProductionPackagePath() ?></code>.
 </p>
 <p>
-	These files should be moved to <code>&lt;your web site&gt;<?php echo ($response[RFG_FILES_IN_ROOT] ? '/' : $response[RFG_FILES_PATH]) ?></code>.
+	These files should be moved to <code>&lt;your web site&gt;<?php echo $response->getFilesLocation() ?></code>.
 </p>
 <p>
 	The following HTML code should be inserted in the <code>&lt;head&gt;</code> section of your web pages:
 </p>
 <pre>
-<?php echo htmlspecialchars($response[RFG_HTML_CODE]) ?>
+<?php echo htmlspecialchars($response->getHtmlCode()) ?>
 </pre>
 
 <h2>Preview</h2>
@@ -43,9 +43,9 @@ catch(Exception $e) {
 </p>
 
 <?php
-	if ($response[RFG_PREVIEW_PICTURE_URL] != NULL) {
+	if ($response->getPreviewUrl() != NULL) {
 ?>
-	<img src="<?php echo $response[RFG_PREVIEW_PICTURE_URL] ?>">
+	<img src="<?php echo $response->getPreviewUrl() ?>">
 <?php
 	}
 	else {
