@@ -78,8 +78,9 @@ catch(Exception $e) {
       <h2>Next</h2>
 
       <ul>
+      	<li><a href="/">Run the demo again</a></li>
       	<li><a href="http://realfavicongenerator.net/api">Study the API</a></li>
-      	<li><a href="https://github.com/RealFaviconGenerator/rfg-api-php-demo">Checkout this demo project</a></li>
+      	<li><a href="https://github.com/RealFaviconGenerator/rfg-api-php-demo">Clone this demo project</a></li>
       	<li>Did you code a great project? <a href="mailto:contact@realfavicongenerator.net">Tell us!</a></li>      	
       </ul>
     </div>
