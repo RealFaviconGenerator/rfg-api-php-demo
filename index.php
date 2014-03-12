@@ -86,14 +86,25 @@ session_start();
         <input type="text" class="form-control" id="api_key" value="87d5cd739b05c00416c4a19cd14a8bb5632ea563">
       </div>
       
-      <h2>Custom parameter</h2>
-      
-      <p>
-      This optional value will be passed back to the caller once the favicon is ready.
-      </p>
-      
-      <div class="form-group">
-        <input type="text" class="form-control" id="custom_parameter" placeholder="someparam1234">
+      <h2>Callback</h2>
+
+      <div class="radio">
+        <label>
+          <input type="radio" name="callback" id="callback_none" value="callback_none">
+            No callback, the user downloads the favicon files directly from RealFaviconGenerator.
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="callback" id="callback_url" value="callback_url" checked>
+            After the favicon creation, the user is redirected to the caller.
+        </label>
+      </div>
+      <div class="form-group" id="custom_parameter_container">
+      	<p>
+          Custom parameter
+          <input type="text" class="form-control" id="custom_parameter" placeholder="someparam1234">
+        </p>
       </div>
       
       <form role="form" method="post" action="http://realfavicongenerator.net/api/favicon_generator" id="favicon_form">
@@ -131,15 +142,11 @@ session_start();
     
     function computeJson() {
       var params = { favicon_generation: { 
-        callback: { url: "http://" + window.location.hostname + "/back" },
+        callback: {},
         master_picture: {},
         files_location: {},
         api_key: $('#api_key').val()
       }};
-      
-      if ($('#custom_parameter').val().length > 0) {
-        params.favicon_generation.callback.custom_parameter = $('#custom_parameter').val();
-      }
       
       switch($('input[name=master_picture]:checked').val()) {
         case('master_picture_none'):
@@ -163,6 +170,19 @@ session_start();
         case('files_location_not_root'):
           params.favicon_generation.files_location.type = 'path';
           params.favicon_generation.files_location.path = $('#files_location_path').val();
+          break;
+      }
+
+      switch($('input[name=callback]:checked').val()) {
+        case('callback_none'):
+          params.favicon_generation.callback.type = 'none';
+          break;
+        case('callback_url'):
+          params.favicon_generation.callback.type = 'url';
+          params.favicon_generation.callback.url = "http://" + window.location.hostname + "/back";
+          if ($('#custom_parameter').val().length > 0) {
+            params.favicon_generation.callback.custom_parameter = $('#custom_parameter').val();
+          }
           break;
       }
       
@@ -200,6 +220,14 @@ session_start();
         }
       });
       
+      $('[name=callback]').change(function() {
+        if ($('input[name=callback]:checked').val() == 'callback_url') {
+          $('#custom_parameter_container').animate({ opacity: 1 });
+        }
+        else {
+          $('#custom_parameter_container').animate({ opacity: 0 });
+        }
+      });
     });
   </script>
 </html>
