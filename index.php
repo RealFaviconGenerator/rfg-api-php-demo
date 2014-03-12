@@ -20,7 +20,7 @@ session_start();
     <![endif]-->
   </head>
   <body>
-  	<div class="container">
+    <div class="container">
       <h1>RealFaviconGenerator API demo</h1>
 
       <p>
@@ -92,114 +92,114 @@ session_start();
       This optional value will be passed back to the caller once the favicon is ready.
       </p>
       
-	  <div class="form-group">
+      <div class="form-group">
         <input type="text" class="form-control" id="custom_parameter" placeholder="someparam1234">
       </div>
       
-	  <form role="form" method="post" action="http://realfavicongenerator.net/api/favicon_generator" id="favicon_form">
-	  	<div class="form-group">
+      <form role="form" method="post" action="http://realfavicongenerator.net/api/favicon_generator" id="favicon_form">
+        <div class="form-group">
           <input type="hidden" name="json_params" id="json_params"/>
           <button type="submit" id="form_button" disabled="disabled" class="btn btn-primary">Go to RealFaviconGenerator and create the favicon</button>
         </div>
       </form>
     </div>
   </body>
-	<script type="text/javascript" src="/jquery-1.11.0.min.js"></script>
-	<script type="text/javascript">
-		var picData = null;
-		
-		// See http://stackoverflow.com/questions/934012/get-image-data-in-javascript
-		// Credits: Matthew Crumley
-		function getBase64Image(img) {
-		    // Create an empty canvas element
-		    var canvas = document.createElement("canvas");
-		    canvas.width = img.width;
-		    canvas.height = img.height;
-		    
-		    // Copy the image contents to the canvas
-		    var ctx = canvas.getContext("2d");
-		    ctx.drawImage(img, 0, 0);
-		
-		    // Get the data-URL formatted image
-		    // Firefox supports PNG and JPEG. You could check img.src to
-		    // guess the original format, but be aware the using "image/jpg"
-		    // will re-encode the image.
-		    var dataURL = canvas.toDataURL("image/png");
-		    
-		    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-		}
-		
-		function computeJson() {
-			var params = { favicon_generation: { 
-				callback: { url: "http://" + window.location.hostname + "/back" },
-				master_picture: {},
-				files_location: {},
-				api_key: $('#api_key').val()
-			}};
-			
-			if ($('#custom_parameter').val().length > 0) {
-				params.favicon_generation.callback.custom_parameter = $('#custom_parameter').val();
-			}
-			
-			switch($('input[name=master_picture]:checked').val()) {
-				case('master_picture_none'):
-					params.favicon_generation.master_picture.type = "no_picture";
-					params.favicon_generation.master_picture.demo = $('#demo_picture').is(':checked');
-					break;
-				case('master_picture_url'):
-					params.favicon_generation.master_picture.type = "url";
-					params.favicon_generation.master_picture.url = $('#demo_picture_url').html();
-					break;
-				case('master_picture_inline'):
-					params.favicon_generation.master_picture.type = "inline";
-					params.favicon_generation.master_picture.content = picData;
-					break;
-			}
-			
-			switch($('input[name=files_location]:checked').val()) {
-				case('files_location_root'):
-					params.favicon_generation.files_location.type = 'root';
-					break;
-				case('files_location_not_root'):
-					params.favicon_generation.files_location.type = 'path';
-					params.favicon_generation.files_location.path = $('#files_location_path').val();
-					break;
-			}
-			
-			return params;
-		}
-		
-		$(document).ready(function() {
-			var img = new Image;
-			img.src = '/demo_favicon.png';
-			img.onload = function() {
-				picData = getBase64Image(img);
-				
-				$('#form_button').removeAttr('disabled');
-			}
-			
-			$('#favicon_form').submit(function(e) {
-				$('#json_params').val(JSON.stringify(computeJson()));
-			});
-			
-			$('[name=master_picture]').change(function() {
-				if ($('input[name=master_picture]:checked').val() == 'master_picture_none') {
-					$('#demo_picture_container').animate({ opacity: 1 });
-				}
-				else {
-					$('#demo_picture_container').animate({ opacity: 0 });
-				}
-			});
-			
-			$('[name=files_location]').change(function() {
-				if ($('input[name=files_location]:checked').val() == 'files_location_not_root') {
-					$('#files_path_container').animate({ opacity: 1 });
-				}
-				else {
-					$('#files_path_container').animate({ opacity: 0 });
-				}
-			});
-			
-		});
-	</script>
+  <script type="text/javascript" src="/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript">
+    var picData = null;
+    
+    // See http://stackoverflow.com/questions/934012/get-image-data-in-javascript
+    // Credits: Matthew Crumley
+    function getBase64Image(img) {
+      // Create an empty canvas element
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+        
+      // Copy the image contents to the canvas
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+    
+      // Get the data-URL formatted image
+      // Firefox supports PNG and JPEG. You could check img.src to
+      // guess the original format, but be aware the using "image/jpg"
+      // will re-encode the image.
+      var dataURL = canvas.toDataURL("image/png");
+        
+      return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    }
+    
+    function computeJson() {
+      var params = { favicon_generation: { 
+        callback: { url: "http://" + window.location.hostname + "/back" },
+        master_picture: {},
+        files_location: {},
+        api_key: $('#api_key').val()
+      }};
+      
+      if ($('#custom_parameter').val().length > 0) {
+        params.favicon_generation.callback.custom_parameter = $('#custom_parameter').val();
+      }
+      
+      switch($('input[name=master_picture]:checked').val()) {
+        case('master_picture_none'):
+          params.favicon_generation.master_picture.type = "no_picture";
+          params.favicon_generation.master_picture.demo = $('#demo_picture').is(':checked');
+          break;
+        case('master_picture_url'):
+          params.favicon_generation.master_picture.type = "url";
+          params.favicon_generation.master_picture.url = $('#demo_picture_url').html();
+          break;
+        case('master_picture_inline'):
+          params.favicon_generation.master_picture.type = "inline";
+          params.favicon_generation.master_picture.content = picData;
+          break;
+      }
+      
+      switch($('input[name=files_location]:checked').val()) {
+        case('files_location_root'):
+          params.favicon_generation.files_location.type = 'root';
+          break;
+        case('files_location_not_root'):
+          params.favicon_generation.files_location.type = 'path';
+          params.favicon_generation.files_location.path = $('#files_location_path').val();
+          break;
+      }
+      
+      return params;
+    }
+    
+    $(document).ready(function() {
+      var img = new Image;
+      img.src = '/demo_favicon.png';
+      img.onload = function() {
+        picData = getBase64Image(img);
+        
+        $('#form_button').removeAttr('disabled');
+      }
+      
+      $('#favicon_form').submit(function(e) {
+        $('#json_params').val(JSON.stringify(computeJson()));
+      });
+      
+      $('[name=master_picture]').change(function() {
+        if ($('input[name=master_picture]:checked').val() == 'master_picture_none') {
+          $('#demo_picture_container').animate({ opacity: 1 });
+        }
+        else {
+          $('#demo_picture_container').animate({ opacity: 0 });
+        }
+      });
+      
+      $('[name=files_location]').change(function() {
+        if ($('input[name=files_location]:checked').val() == 'files_location_not_root') {
+          $('#files_path_container').animate({ opacity: 1 });
+        }
+        else {
+          $('#files_path_container').animate({ opacity: 0 });
+        }
+      });
+      
+    });
+  </script>
 </html>

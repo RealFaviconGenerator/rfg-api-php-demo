@@ -6,11 +6,13 @@ $response = $_GET['json_result'];
 $error = NULL;
 $files = NULL;
 try {
-	$response = new RFGApiResponse($response);
-	$response->downloadAndUnpack();
+  $response = new RFGApiResponse($response);
+  
+  // This call can take a few seconds... better put this behind an Ajax request
+  $response->downloadAndUnpack();
 }
 catch(Exception $e) {
-	$error = $e->getMessage();
+  $error = $e->getMessage();
 }
 
 ?>
@@ -33,22 +35,22 @@ catch(Exception $e) {
     <![endif]-->
   </head>
   <body>
-  	 <div class="container">
+   <div class="container">
       <h1>Generated favicon</h1>
 
 <?php if ($error != NULL) { ?>
       <p>
-      	An error occured: <?php echo $error ?>.
+      An error occured: <?php echo $error ?>.
       </p>
 <?php } else { ?>
       <p>
-      	The files to be deployed are here: <code><?php echo $response->getProductionPackagePath() ?></code>.
+      The files to be deployed are here: <code><?php echo $response->getProductionPackagePath() ?></code>.
       </p>
       <p>
-      	These files should be moved to <code>&lt;the web site&gt;<?php echo $response->getFilesLocation() ?></code>.
+      These files should be moved to <code>&lt;the web site&gt;<?php echo $response->getFilesLocation() ?></code>.
       </p>
       <p>
-      	The following HTML code should be inserted in the <code>&lt;head&gt;</code> section of the web pages:
+      The following HTML code should be inserted in the <code>&lt;head&gt;</code> section of the web pages:
       </p>
 <pre>
 <?php echo htmlspecialchars($response->getHtmlCode()) ?>
@@ -63,25 +65,25 @@ catch(Exception $e) {
       </p>
 
 <?php
-	if ($response->getPreviewUrl() != NULL) {
+if ($response->getPreviewUrl() != NULL) {
 ?>
       <img class="img-responsive img-thumbnail" src="<?php echo $response->getPreviewUrl() ?>">
 <?php
-	}
-	else {
+}
+else {
 ?>
       <p>No preview available</p>
 <?php 
-	}
+}
 } ?>
 
       <h2>Next</h2>
 
       <ul>
-      	<li><a href="/">Run the demo again</a></li>
-      	<li><a href="http://realfavicongenerator.net/api">Study the API</a></li>
-      	<li><a href="https://github.com/RealFaviconGenerator/rfg-api-php-demo">Clone this demo project</a></li>
-      	<li>Did you code a great project? <a href="mailto:contact@realfavicongenerator.net">Tell us!</a></li>      	
+        <li><a href="/">Run the demo again</a></li>
+        <li><a href="http://realfavicongenerator.net/api">Study the API</a></li>
+        <li><a href="https://github.com/RealFaviconGenerator/rfg-api-php-demo">Clone this demo project</a></li>
+        <li>Did you code a great project? <a href="mailto:contact@realfavicongenerator.net">Tell us!</a></li>      
       </ul>
     </div>
   </body>
