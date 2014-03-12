@@ -14,43 +14,74 @@ catch(Exception $e) {
 }
 
 ?>
-<h1>Your generated favicon</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Favicon generation result</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  	 <div class="container">
+      <h1>Generated favicon</h1>
 
 <?php if ($error != NULL) { ?>
-<p>
-	An error occured: <?php echo $error ?>.
-</p>
+      <p>
+      	An error occured: <?php echo $error ?>.
+      </p>
 <?php } else { ?>
-<p>
-	The files to be deployed are here: <code><?php echo $response->getProductionPackagePath() ?></code>.
-</p>
-<p>
-	These files should be moved to <code>&lt;your web site&gt;<?php echo $response->getFilesLocation() ?></code>.
-</p>
-<p>
-	The following HTML code should be inserted in the <code>&lt;head&gt;</code> section of your web pages:
-</p>
+      <p>
+      	The files to be deployed are here: <code><?php echo $response->getProductionPackagePath() ?></code>.
+      </p>
+      <p>
+      	These files should be moved to <code>&lt;the web site&gt;<?php echo $response->getFilesLocation() ?></code>.
+      </p>
+      <p>
+      	The following HTML code should be inserted in the <code>&lt;head&gt;</code> section of the web pages:
+      </p>
 <pre>
 <?php echo htmlspecialchars($response->getHtmlCode()) ?>
 </pre>
 
-<h2>Preview</h2>
+      <h2>Preview</h2>
 
-<p>
-	In this demo, the preview is displayed directly from RealFaviconGenerator (ie. the URL starts with http://realfavicongenerator.net).
-	However, keep in mind that all files are automatically removed after a few hours. So you should rather download the picture, stores it locally,
-	make it available though HTTP and use this local version instead.
-</p>
+      <p>
+      In this demo, the preview is displayed directly from RealFaviconGenerator (ie. the URL starts with http://realfavicongenerator.net).
+      However, keep in mind that all files are automatically removed after a few hours. So you should rather download the picture, stores it locally,
+      make it available though HTTP and use this local version instead.
+      </p>
 
 <?php
 	if ($response->getPreviewUrl() != NULL) {
 ?>
-	<img src="<?php echo $response->getPreviewUrl() ?>">
+      <img class="img-responsive img-thumbnail" src="<?php echo $response->getPreviewUrl() ?>">
 <?php
 	}
 	else {
 ?>
-	<p>No preview available</p>
+      <p>No preview available</p>
 <?php 
 	}
 } ?>
+
+      <h2>Next</h2>
+
+      <ul>
+      	<li><a href="http://realfavicongenerator.net/api">Study the API</a></li>
+      	<li><a href="https://github.com/RealFaviconGenerator/rfg-api-php-demo">Checkout this demo project</a></li>
+      	<li>Did you code a great project? <a href="mailto:contact@realfavicongenerator.net">Tell us!</a></li>      	
+      </ul>
+    </div>
+  </body>
+</html>
