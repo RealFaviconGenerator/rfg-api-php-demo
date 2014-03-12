@@ -131,7 +131,7 @@ session_start();
 		
 		function computeJson() {
 			var params = { favicon_generation: { 
-				callback: { url: "http://localhost/back" },
+				callback: { url: "http://" + window.location.hostname + "/back" },
 				master_picture: {},
 				files_location: {},
 				api_key: $('#api_key').val()
