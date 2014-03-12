@@ -203,30 +203,18 @@ session_start();
       });
       
       $('[name=master_picture]').change(function() {
-        if ($('input[name=master_picture]:checked').val() == 'master_picture_none') {
-          $('#demo_picture_container').animate({ opacity: 1 });
-        }
-        else {
-          $('#demo_picture_container').animate({ opacity: 0 });
-        }
+      	var op = $('input[name=master_picture]:checked').val() == 'master_picture_none';
+        $('#demo_picture_container').animate({ opacity: op });
       });
       
       $('[name=files_location]').change(function() {
-        if ($('input[name=files_location]:checked').val() == 'files_location_not_root') {
-          $('#files_path_container').animate({ opacity: 1 });
-        }
-        else {
-          $('#files_path_container').animate({ opacity: 0 });
-        }
+      	var op = $('input[name=files_location]:checked').val() == 'files_location_not_root';
+        $('#files_path_container').animate({ opacity: op });
       });
       
       $('[name=callback]').change(function() {
-        if ($('input[name=callback]:checked').val() == 'callback_url') {
-          $('#custom_parameter_container').animate({ opacity: 1 });
-        }
-        else {
-          $('#custom_parameter_container').animate({ opacity: 0 });
-        }
+      	var op = $('input[name=callback]:checked').val() == 'callback_url' ? 1 : 0;
+        $('#custom_parameter_container').animate({ opacity: op });
       });
     });
   </script>
