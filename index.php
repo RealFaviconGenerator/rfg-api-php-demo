@@ -63,6 +63,12 @@ session_start();
       
       <div class="radio">
         <label>
+          <input type="radio" name="files_location" id="files_location_none" value="files_location_none">
+            None, the choice is left to the user.
+        </label>
+      </div>
+      <div class="radio">
+        <label>
           <input type="radio" name="files_location" id="files_location_root" value="files_location_root" checked>
             Favicon files will be in the root directory of the target web site.
         </label>
@@ -164,6 +170,9 @@ session_start();
       }
       
       switch($('input[name=files_location]:checked').val()) {
+        case('files_location_none'):
+          params.favicon_generation.files_location.type = 'no_location';
+          break;
         case('files_location_root'):
           params.favicon_generation.files_location.type = 'root';
           break;
