@@ -121,7 +121,7 @@ session_start();
       </form>
     </div>
   </body>
-  <script type="text/javascript" src="/jquery-1.11.0.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
   <script type="text/javascript">
     var picData = null;
     
