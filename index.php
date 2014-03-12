@@ -35,7 +35,8 @@ session_start();
       <div class="radio">
         <label>
           <input type="radio" name="master_picture" id="master_picture_url" value="master_picture_url" checked>
-            Master picture is predefined and passed by URL.
+            Master picture is predefined and passed by URL 
+            (<code><span id="demo_picture_url">http://realfavicongenerator.net/demo_favicon.png</span></code> in this example).
         </label>
       </div>
       <div class="radio">
@@ -147,7 +148,7 @@ session_start();
 					break;
 				case('master_picture_url'):
 					params.favicon_generation.master_picture.type = "url";
-					params.favicon_generation.master_picture.url = "http://realfavicongenerator.net/demo_favicon.png";
+					params.favicon_generation.master_picture.url = $('#demo_picture_url').html();
 					break;
 				case('master_picture_inline'):
 					params.favicon_generation.master_picture.type = "inline";
