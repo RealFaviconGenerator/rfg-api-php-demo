@@ -75,7 +75,22 @@ else {
       <p>No preview available</p>
 <?php 
 }
-} ?>
+?>
+      <h2>Misc</h2>
+      
+      <p>
+      The package was <?php echo $response->isCompressed() ? '' : 'not ' ?>compressed.
+      </p>
+      
+      <p>
+      <?php if ($response->getCustomParameter() != NULL) { ?>
+      The customer callback parameter: <code><?php echo $response->getCustomParameter() ?></code>.
+      <?php } else { ?>
+      There was no callback parameter.
+      <?php } ?>
+      </p>
+      
+<?php } ?>
 
       <h2>Next</h2>
 
