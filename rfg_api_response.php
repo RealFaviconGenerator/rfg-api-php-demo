@@ -136,7 +136,7 @@ class RFGApiResponse {
 				$zip->extractTo($extractedPath);
 				$zip->close();
 				
-				if ($response[RFG_COMPRESSION]) {
+				if ($this->isCompressed()) {
 					$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath . DIRECTORY_SEPARATOR . 'compressed';
 					$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath . DIRECTORY_SEPARATOR . 'uncompressed';
 					$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH];
