@@ -193,9 +193,13 @@ class RFGApiResponse {
 	}
 	
 	private function downloadFile($localPath, $url) {
-		$s = file_put_contents($localPath, file_get_contents($url));
-		if (($s == NULL) || ($s == 0)) {
+		$content = file_get_contents($url);
+		if ($content === FALSE) {
 			throw new InvalidArgumentException("Cannot download file at " . $url);
+		}
+		$ret = file_put_contents($localPath, $content);
+		if ($ret === FALSE) {
+			throw new InvalidArgumentException("Cannot store content of " . $url . " to " . $localPath);
 		}
 	}
 	
