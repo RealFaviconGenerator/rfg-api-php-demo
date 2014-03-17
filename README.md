@@ -17,5 +17,5 @@ Now what?
 
 - Play with the demo: edit <code>index.php</code> and change the API parameters you want.
 - <a href="http://realfavicongenerator.net/api">Study the API.</a>
-- If you use PHP for your own project, you can use <code>rfg.php</code> to handle the response of RealFaviconGenerator.
+- If you use PHP for your own project, you can use <code>rfg_api_response.php</code> to handle the response of RealFaviconGenerator.
 - Did you implement a great plugin? <a href="mailto:contact@realfavicongenerator.net">Let us know!</a>
