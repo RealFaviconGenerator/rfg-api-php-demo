@@ -44,7 +44,7 @@ catch(Exception $e) {
       </p>
 <?php } else { ?>
       <p>
-      The files to be deployed are here: <code><?php echo $response->getProductionPackagePath() ?></code>.
+      The files to be deployed are here: <code><?php echo $response->getPackagePath() ?></code>.
       </p>
       <p>
       These files should be moved to <code>&lt;the web site&gt;<?php echo $response->getFilesLocation() ?></code>.
