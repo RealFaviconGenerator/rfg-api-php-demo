@@ -9,8 +9,6 @@ define('RFG_PREVIEW_PICTURE_URL', 'preview_picture_url');
 define('RFG_CUSTOM_PARAMETER',    'custom_parameter');
 
 define('RFG_FAVICON_PRODUCTION_PACKAGE_PATH',   'favicon_production_package_path');
-define('RFG_FAVICON_COMPRESSED_PACKAGE_PATH',   'favicon_compressed_package_path');
-define('RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH', 'favicon_uncompressed_package_path');
 define('RFG_PREVIEW_PATH',                      'preview_path');
 
 class RFGApiResponse {
@@ -136,16 +134,7 @@ class RFGApiResponse {
 				$zip->extractTo($extractedPath);
 				$zip->close();
 				
-				if ($this->isCompressed()) {
-					$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = $extractedPath . DIRECTORY_SEPARATOR . 'compressed';
-					$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath . DIRECTORY_SEPARATOR . 'uncompressed';
-					$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH];
-				}
-				else {
-					$this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH]   = NULL;
-					$this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH] = $extractedPath;
-					$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH]   = $this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH];
-				}
+				$this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH] = $extractedPath;
 			}
 			else {
 				throw new InvalidArgumentException('Cannot open package. Invalid Zip file?!');
@@ -160,28 +149,11 @@ class RFGApiResponse {
 	}
 
  	/**
-	 * Directory where the compressed files are stored. Method <code>downloadAndUnpack</code> must be called first in order to populate this field. 
-	 * Can be <code>NULL</code>.
-	 */
- 	public function getCompressedPackagePath() {
-		return $this->params[RFG_FAVICON_COMPRESSED_PACKAGE_PATH];
-	}
-
- 	/**
-	 * Directory where the uncompressed files are stored. Method <code>downloadAndUnpack</code> must be called first in order to populate this field. 
-	 * Can be <code>NULL</code>.
-	 */
-	public function getUncompressedPackagePath() {
-		return $this->params[RFG_FAVICON_UNCOMPRESSED_PACKAGE_PATH];
-	}
-
- 	/**
 	 * Directory where the production favicon files are stored.
-	 * These are the files to deployed to the targeted web site. When the user asked for compression,
-	 * this is the path to the compressed folder. Else, this is the path to the regular files folder.
+	 * These are the files to deployed to the targeted web site.
 	 * Method <code>downloadAndUnpack</code> must be called first in order to populate this field.
 	 */
-	public function getProductionPackagePath() {
+	public function getPackagePath() {
 		return $this->params[RFG_FAVICON_PRODUCTION_PACKAGE_PATH];
 	}
 	
