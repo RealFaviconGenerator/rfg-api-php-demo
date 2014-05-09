@@ -2,17 +2,29 @@
 require_once 'rfg_api_response.php';
 
 $response = $_GET['json_result'];
+$responseUrl = $_GET['json_result_url'];
 
 $error = NULL;
 $files = NULL;
-try {
-  $response = new RFGApiResponse($response);
-  
-  // This call can take a few seconds... better put this behind an Ajax request
-  $response->downloadAndUnpack();
+
+if ($responseUrl != NULL) {
+	// This operation can take a few seconds... better put this behind an Ajax request
+	$response = file_get_contents($responseUrl);
 }
-catch(Exception $e) {
-  $error = $e->getMessage();
+
+if ($response != NULL) {
+	try {
+	  $response = new RFGApiResponse($response);
+	  
+	  // This call can take a few seconds... better put this behind an Ajax request
+	  $response->downloadAndUnpack();
+	}
+	catch(Exception $e) {
+	  $error = $e->getMessage();
+	}
+}
+else {
+	$error = 'No response from RealFaviconGenerator';
 }
 
 ?>

@@ -112,6 +112,12 @@ session_start();
           <input type="text" class="form-control" id="custom_parameter" placeholder="someparam1234">
         </p>
       </div>
+      <div class="checkbox" id="short_url_parameter_container">
+        <label>
+          <input type="checkbox" id="short_url">
+          Short URL
+        </label>
+      </div>
       
       <form role="form" method="post" action="http://realfavicongenerator.net/api/favicon_generator" id="favicon_form">
         <div class="form-group">
@@ -192,6 +198,7 @@ session_start();
           if ($('#custom_parameter').val().length > 0) {
             params.favicon_generation.callback.custom_parameter = $('#custom_parameter').val();
           }
+          params.favicon_generation.callback.short_url = $("#short_url").is(':checked') ? 'true' : 'false';
           break;
       }
       
