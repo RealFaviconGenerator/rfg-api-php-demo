@@ -102,6 +102,10 @@ else {
       <?php } ?>
       </p>
       
+      <p>
+      The favicon was generated with version <?php echo $response->getVersion() ?>.
+      </p>
+      
 <?php } ?>
 
       <h2>Next</h2>
