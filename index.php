@@ -114,8 +114,14 @@ session_start();
       </div>
       <div class="checkbox" id="short_url_parameter_container">
         <label>
-          <input type="checkbox" id="short_url">
+          <input type="checkbox" id="short_url" name="short_url">
           Short URL
+        </label>
+      </div>
+      <div class="checkbox" id="path_only_parameter_container" style="opacity: 0">
+        <label>
+          <input type="checkbox" id="path_only">
+          Path only
         </label>
       </div>
       
@@ -199,6 +205,7 @@ session_start();
             params.favicon_generation.callback.custom_parameter = $('#custom_parameter').val();
           }
           params.favicon_generation.callback.short_url = $("#short_url").is(':checked') ? 'true' : 'false';
+          params.favicon_generation.callback.path_only = $("#path_only").is(':checked') ? 'true' : 'false';
           break;
       }
       
@@ -231,6 +238,13 @@ session_start();
       $('[name=callback]').change(function() {
       	var op = $('input[name=callback]:checked').val() == 'callback_url' ? 1 : 0;
         $('#custom_parameter_container').animate({ opacity: op });
+        $('#short_url_parameter_container').animate({ opacity: op });
+        $('#path_only_parameter_container').animate({ opacity: op });
+      });
+      
+      $('[name=short_url]').change(function() {
+      	var op = $('input[name=short_url]:checked').is(':checked') ? 1 : 0;
+        $('#path_only_parameter_container').animate({ opacity: op });
       });
     });
   </script>

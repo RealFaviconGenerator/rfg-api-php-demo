@@ -8,6 +8,10 @@ $error = NULL;
 $files = NULL;
 
 if ($responseUrl != NULL) {
+	if (strpos($responseUrl, '/') === 0) {
+		// We received a path (path_only option), make it a URL
+		$responseUrl = 'http://realfavicongenerator.net' . $responseUrl;
+	}
 	// This operation can take a few seconds... better put this behind an Ajax request
 	$response = file_get_contents($responseUrl);
 }
