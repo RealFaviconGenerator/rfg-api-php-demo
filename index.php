@@ -125,7 +125,7 @@ session_start();
         </label>
       </div>
       
-      <form role="form" method="post" action="http://realfavicongenerator.net/api/favicon_generator" id="favicon_form">
+      <form role="form" method="post" action="https://realfavicongenerator.net/api/favicon_generator" id="favicon_form">
         <div class="form-group">
           <input type="hidden" name="json_params" id="json_params"/>
           <button type="submit" id="form_button" disabled="disabled" class="btn btn-primary">Go to RealFaviconGenerator and create the favicon</button>
