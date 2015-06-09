@@ -1,13 +1,14 @@
 <?php
 
-define('RFG_PACKAGE_URL',         'package_url');
-define('RFG_COMPRESSION',         'compression');
-define('RFG_HTML_CODE',           'html_code');
-define('RFG_FILES_IN_ROOT',       'files_in_root');
-define('RFG_FILES_PATH',          'files_path');
-define('RFG_PREVIEW_PICTURE_URL', 'preview_picture_url');
-define('RFG_CUSTOM_PARAMETER',    'custom_parameter');
-define('RFG_VERSION',             'version');
+define('RFG_PACKAGE_URL',             'package_url');
+define('RFG_COMPRESSION',             'compression');
+define('RFG_HTML_CODE',               'html_code');
+define('RFG_FILES_IN_ROOT',           'files_in_root');
+define('RFG_FILES_PATH',              'files_path');
+define('RFG_PREVIEW_PICTURE_URL',     'preview_picture_url');
+define('RFG_CUSTOM_PARAMETER',        'custom_parameter');
+define('RFG_VERSION',                 'version');
+define('RFG_NON_INTERACTIVE_REQUEST', 'non_interactive_request');
 
 define('RFG_FAVICON_PRODUCTION_PACKAGE_PATH',   'favicon_production_package_path');
 define('RFG_PREVIEW_PATH',                      'preview_path');
@@ -50,6 +51,8 @@ class RFGApiResponse {
 		
 		$this->params[RFG_CUSTOM_PARAMETER] = $this->getParam($response, 'custom_parameter', false);
 		$this->params[RFG_VERSION] = $this->getParam($response, 'version', false);
+		
+		$this->params[RFG_NON_INTERACTIVE_REQUEST] = $this->getParam($response, 'non_interactive_request', false);
     }
 
 	/**
@@ -172,6 +175,14 @@ class RFGApiResponse {
 	public function getPreviewPath() {
 		return $this->params[RFG_PREVIEW_PATH];
 	}
+	
+	/**
+	 * Non-interative request.
+	 */
+	public function getNonInteractiveRequest() {
+		return $this->params[RFG_NON_INTERACTIVE_REQUEST];
+	}
+	
 	
 	private function downloadFile($localPath, $url) {
 		$content = file_get_contents($url);

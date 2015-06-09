@@ -109,6 +109,13 @@ else {
       <p>
       The favicon was generated with version <?php echo $response->getVersion() ?>.
       </p>
+
+      <p>
+      The same favicon can be generated with the following non-interactive API call:
+      </p>
+      <pre>
+	      <?php echo $response->getNonInteractiveRequest() ?>
+      </pre>
       
 <?php } ?>
 
